@@ -8,47 +8,45 @@ let arrayOfTasks = [];
 
 
 //En funktion som skapar objekt och lägger i array:en och returnerar array:en.
-function putObjectInArray(array, task) {        
+function putObjectInArray(array, task) { 
+	if (array.filter(function(e){ return e.todo == task }).length > 0) {
+		console.log("stop!");
+	}
+	else {
 	array.push({todo: task, done: false});						
 	return array;
+	}
 };
-
 
 let toDoListHTML = ""; //En tom string till att börja med.
 
 //En funktion som lägger ihop info från en Array till en chunk med HTML.
+
 function makeHTMLOutOfArray(array, string, boolean) {
-	for(var i = 0; i < array.length; i++){
-		if(array[i].done == boolean) {
-	  string += `<div><p>${array[i].todo}</p><button class="remove">click</button></div>`;
-			//string += `<li>${array[i].todo}<button class="remove">click</button></li>`;
+	if(boolean == false) {
+		for(var i = 0; i < array.length; i++){
+			if(array[i].done == false) {
+		  string += `<div><p>${array[i].todo}</p><button class="remove">Done</button></div>`;
+			}
 		}
-	};
 	return string;
+	}
+	else {
+		for(var i = 0; i < array.length; i++){
+			if(array[i].done == true) {
+		  string += `<div><p>${array[i].todo}</p></div>`;
+			}
+		}
+	return string;
+	}	
 };
 
 
-/*addButton.addEventListener('click', function(){
-	putObjectInArray(arrayOfTasks, input.value);
-	myToDoListUl.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML);
-	
-});*/
-
-/*const listItems = document.querySelectorAll('li');
-
-for(const item of listItems){
-    item.addEventListener('click', function(){
-        this.parentElement.removeChild(this);
-    })
-}
-*/
 
 addButton.addEventListener('click', function(){
 	putObjectInArray(arrayOfTasks, input.value);
 	myToDoListUl.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, false);
 
-	
-	//const listItems = document.querySelectorAll('li');
 	
 	const buttons = document.getElementsByClassName("remove");
 	
@@ -62,17 +60,11 @@ addButton.addEventListener('click', function(){
 console.log(this.parentNode);
 			this.parentNode.removeChild(this.previousElementSibling);
 			this.parentNode.removeChild(this);
-			
-	
-		//for(const item of listItems){
-		//item.addEventListener('click', function(){
-			//this.parentElement.removeChild(this);*/
-			
-			
+		
 			
 			myDoneListUl.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, true);
 			console.log(myDoneListUl);
-		//}
+		
 		})
 	}
 	
