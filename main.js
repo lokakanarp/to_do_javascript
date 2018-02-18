@@ -1,7 +1,7 @@
 const input = document.getElementById('input');
 const addButton = document.getElementById('addButton');
-const myToDoListUl = document.getElementById('my_to_do_list_ul');
-const myDoneListUl = document.getElementById('my_done_list_ul');
+const myToDoListDiv = document.getElementById('my_to_do_list_div');
+const myDoneListDiv = document.getElementById('my_done_list_div');
 const removeButton = document.getElementById("removeButton");
 
 let arrayOfTasks = [];
@@ -45,7 +45,7 @@ function makeHTMLOutOfArray(array, string, boolean) {
 
 addButton.addEventListener('click', function(){
 	putObjectInArray(arrayOfTasks, input.value);
-	myToDoListUl.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, false);
+	myToDoListDiv.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, false);
 
 	
 	const buttons = document.getElementsByClassName("remove");
@@ -62,8 +62,8 @@ console.log(this.parentNode);
 			this.parentNode.removeChild(this);
 		
 			
-			myDoneListUl.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, true);
-			console.log(myDoneListUl);
+			myDoneListDiv.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, true);
+			console.log(myDoneListDiv);
 		
 		})
 	}
