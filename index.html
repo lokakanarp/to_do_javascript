@@ -4,25 +4,39 @@
 	<meta charset="UTF-8">
 	<title>To-do</title>
 	<link rel="stylesheet" href="css/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body>
-	<header></header>
+	<header>
+		<div class="header">
+			<h1>My To-Do List</h1>
+		</div>
+	</header>
 	<main>
-		<h1>To Do</h1>
-		
-        <input type="text" id="input" placeholder="What do you want to do today?"/>
-        <button id="addButton">Add to To Do-list</button>
-		<h2>My To Do-list</h2>
-		<div id="my_to_do_list_div"></div>
-		<button id="deleteAllButton">Delete All</button>
-		<h2>My list of things done</h2>
-		<div id="my_done_list_div"></div>
-		<button id="deleteAllDoneButton">Delete All</button>
+       <div class="super_wrapper">
+		   <div class="wrapper">
+		   		<div class="input_div">
+		   			<div class="input_div_middle">
+						<input class="input" type="text" id="input" placeholder="Enter your task here."/>
+						<br>
+						<button id="addButton">Add to To Do-list</button>
+					</div>
+				</div>
+				<div class="list_wrap">
+					<h2>My To Do-list</h2>
+					<div id="my_to_do_list_div"></div>
+					<button id="deleteAllButton">Delete All</button>
+				</div>
+				<div class="list_wrap">
+					<h2>My list of Things Done</h2>
+					<div id="my_done_list_div"></div>
+					<button id="deleteAllDoneButton">Delete All</button>
+				</div>
+			</div>
+		</div>
 	</main>
-	<footer></footer>
+	<footer><p class="footer_text">hej hej</p></footer>
 
-	
-	
 	
 <script src="main.js"></script>
 </body>

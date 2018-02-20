@@ -68,8 +68,6 @@ function deletePartOfArray(array, boolean) {
 
 
 
-
-
 let arrayOfTasks = []; //An empty array
 let toDoListHTML = ""; //An empty string
 
