@@ -2,12 +2,13 @@ const input = document.getElementById('input');
 const addButton = document.getElementById('addButton');
 const myToDoListDiv = document.getElementById('my_to_do_list_div');
 const myDoneListDiv = document.getElementById('my_done_list_div');
-const removeButton = document.getElementById("removeButton");
+const deleteAllButton = document.getElementById("deleteAllButton");
+const deleteAllDoneButton = document.getElementById("deleteAllDoneButton");
 
 /*A function that creates objects and but them in an array. 
 It also compares objects so there is no dupicates in the array.*/
 function putObjectInArray(array, task) { 
-	if (array.filter(function(e){ return e.todo == task }).length > 0) {
+	if (array.filter(function(e){ return e.todo == task }).length > 0 || task.length < 1) {
 		console.log("stop!");
 	}
 	else {
@@ -19,7 +20,7 @@ function putObjectInArray(array, task) {
 //A function that takes data from an array of objects and returns a string of html.
 function makeHTMLOutOfArray(array, string, boolean) {
 	if(boolean == false) {
-		for(var i = 0; i < array.length; i++){
+		for(let i = 0; i < array.length; i++){
 			if(array[i].done == false) {
 		  string += 
 			`<div>
@@ -32,18 +33,42 @@ function makeHTMLOutOfArray(array, string, boolean) {
 	return string;
 	}
 	else {
-		for(var i = 0; i < array.length; i++){
+		for(let i = 0; i < array.length; i++){
 			if(array[i].done == true) {
 		  string += 
 			  `<div>
-					<p>${array[i].todo}</p>
-					<button class="deleteDone">Delete</button>
+				  <p>${array[i].todo}</p>
+				  <button class="deleteDone">Delete</button>
 			   </div>`;
 			}
 		}
 	return string;
 	}	
 }; //End of function
+
+//A function that deletes all the objects in an array depending on a boolean property.
+function deletePartOfArray(array, boolean) {
+	if(boolean == false) {
+		for(let i = 0; i < array.length; i++){
+			if(array[i].done == false) {
+		 		array.splice([i], 1);
+			}
+		}
+	return array;
+	}
+	else {
+		for(var i = 0; i < array.length; i++){
+			if(array[i].done == true) {
+		  		array.splice([i], 1);	
+			}
+		}
+	return array;
+	}	
+}; //End of function
+
+
+
+
 
 let arrayOfTasks = []; //An empty array
 let toDoListHTML = ""; //An empty string
@@ -74,27 +99,35 @@ addButton.addEventListener('click', function(){
 				deleteDoneButton.addEventListener('click', function(){
 					let index = arrayOfTasks.findIndex(x => x.todo == this.parentNode.firstElementChild.textContent);
 					arrayOfTasks.splice(index, 1);
-
 					this.parentNode.removeChild(this.previousElementSibling);
 					this.parentNode.removeChild(this);
-			})
-	} //End of for loop
-			
-			
+				})
+			} //End of for loop	
 		}) //End of doneButton.Eventlistener loop
 	} //End of for loop doneButtons
+	
+	deleteAllDoneButton.addEventListener('click', function(){
+		myDoneListDiv.innerHTML = "";
+		deletePartOfArray(arrayOfTasks, true);
+		
+	});
 	
 	const deleteButtons = document.getElementsByClassName("delete");
 	for(const deleteButton of deleteButtons){
 		deleteButton.addEventListener('click', function(){
 			let index = arrayOfTasks.findIndex(x => x.todo == this.parentNode.firstElementChild.textContent);
 			arrayOfTasks.splice(index, 1);
-			
 			this.parentNode.removeChild(this.previousElementSibling);
 			this.parentNode.removeChild(this.previousElementSibling);
 			this.parentNode.removeChild(this);
 		})
 	} //End of for loop
+	
+	deleteAllButton.addEventListener('click', function(){
+		myToDoListDiv.innerHTML = "";
+		deletePartOfArray(arrayOfTasks, false);
+		console.log(arrayOfTasks);
+	});
 	
 }); //End of addButton.EventListener
 
