@@ -37,6 +37,7 @@ function makeHTMLOutOfArray(array, string, boolean) {
 		  string += 
 			  `<div>
 					<p>${array[i].todo}</p>
+					<button class="deleteDone">Delete</button>
 			   </div>`;
 			}
 		}
@@ -47,9 +48,11 @@ function makeHTMLOutOfArray(array, string, boolean) {
 let arrayOfTasks = []; //An empty array
 let toDoListHTML = ""; //An empty string
 
+
 /* The addButton.addEventListener is the "parent" of doneButtons and deleteButtons because they don't exist unless you have clicked the addButton */
 addButton.addEventListener('click', function(){
 	putObjectInArray(arrayOfTasks, input.value);
+	input.value = "";
 	myToDoListDiv.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, false);
 
 	const doneButtons = document.getElementsByClassName("done");
@@ -65,25 +68,31 @@ addButton.addEventListener('click', function(){
 			this.parentNode.removeChild(this.previousElementSibling);
 			this.parentNode.removeChild(this.nextElementSibling);
 			this.parentNode.removeChild(this);
-		})
+			
+			const deleteDoneButtons = document.getElementsByClassName("deleteDone");
+			for(const deleteDoneButton of deleteDoneButtons){
+				deleteDoneButton.addEventListener('click', function(){
+					let index = arrayOfTasks.findIndex(x => x.todo == this.parentNode.firstElementChild.textContent);
+					arrayOfTasks.splice(index, 1);
+
+					this.parentNode.removeChild(this.previousElementSibling);
+					this.parentNode.removeChild(this);
+			})
 	} //End of for loop
-	console.log(arrayOfTasks);
+			
+			
+		}) //End of doneButton.Eventlistener loop
+	} //End of for loop doneButtons
+	
 	const deleteButtons = document.getElementsByClassName("delete");
 	for(const deleteButton of deleteButtons){
 		deleteButton.addEventListener('click', function(){
 			let index = arrayOfTasks.findIndex(x => x.todo == this.parentNode.firstElementChild.textContent);
-			
 			arrayOfTasks.splice(index, 1);
-			console.log(arrayOfTasks);
 			
-			 //this.parentNode.removeChild(this.parentNode.firstChild);
 			this.parentNode.removeChild(this.previousElementSibling);
 			this.parentNode.removeChild(this.previousElementSibling);
 			this.parentNode.removeChild(this);
-			
-				
-		//console.log(this.parentNode);
-			//myDoneListDiv.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, true);
 		})
 	} //End of for loop
 	
