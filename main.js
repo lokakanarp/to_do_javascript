@@ -4,10 +4,8 @@ const myToDoListDiv = document.getElementById('my_to_do_list_div');
 const myDoneListDiv = document.getElementById('my_done_list_div');
 const removeButton = document.getElementById("removeButton");
 
-let arrayOfTasks = [];
-
-
-//En funktion som skapar objekt och lägger i array:en och returnerar array:en.
+/*A function that creates objects and but them in an array. 
+It also compares objects so there is no dupicates in the array.*/
 function putObjectInArray(array, task) { 
 	if (array.filter(function(e){ return e.todo == task }).length > 0) {
 		console.log("stop!");
@@ -16,17 +14,19 @@ function putObjectInArray(array, task) {
 	array.push({todo: task, done: false});						
 	return array;
 	}
-};
+}; //End of function
 
-let toDoListHTML = ""; //En tom string till att börja med.
-
-//En funktion som lägger ihop info från en Array till en chunk med HTML.
-
+//A function that takes data from an array of objects and returns a string of html.
 function makeHTMLOutOfArray(array, string, boolean) {
 	if(boolean == false) {
 		for(var i = 0; i < array.length; i++){
 			if(array[i].done == false) {
-		  string += `<div><p>${array[i].todo}</p><button class="remove">Done</button></div>`;
+		  string += 
+			`<div>
+				<p>${array[i].todo}</p>
+				<button class="done">Done</button>
+				<button class="delete">Delete</button>
+			</div>`;
 			}
 		}
 	return string;
@@ -34,43 +34,62 @@ function makeHTMLOutOfArray(array, string, boolean) {
 	else {
 		for(var i = 0; i < array.length; i++){
 			if(array[i].done == true) {
-		  string += `<div><p>${array[i].todo}</p></div>`;
+		  string += 
+			  `<div>
+					<p>${array[i].todo}</p>
+			   </div>`;
 			}
 		}
 	return string;
 	}	
-};
+}; //End of function
 
+let arrayOfTasks = []; //An empty array
+let toDoListHTML = ""; //An empty string
 
-
+/* The addButton.addEventListener is the "parent" of doneButtons and deleteButtons because they don't exist unless you have clicked the addButton */
 addButton.addEventListener('click', function(){
 	putObjectInArray(arrayOfTasks, input.value);
 	myToDoListDiv.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, false);
 
-	
-	const buttons = document.getElementsByClassName("remove");
-	
-	for(const button of buttons){
-		button.addEventListener('click', function(){
-		
-			console.log(arrayOfTasks);
+	const doneButtons = document.getElementsByClassName("done");
+	for(const doneButton of doneButtons){
+		doneButton.addEventListener('click', function(){
+			/* The findIndex function takes the textcontent of a todo and matches it with the right object i arrayOfTasks. It returns the index of the object in that array. */
 			let index = arrayOfTasks.findIndex(x => x.todo == this.previousElementSibling.textContent);
-			
+			/* The property "done" is changed to true. Now the task won't be displayed in the todo-list, only in the done-list. */
 			arrayOfTasks[index].done = true;
-console.log(this.parentNode);
+			/*The done-list is updated.*/
+			myDoneListDiv.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, true);
+			/* The task and the buttons are removed from the todo-list. */
+			this.parentNode.removeChild(this.previousElementSibling);
+			this.parentNode.removeChild(this.nextElementSibling);
+			this.parentNode.removeChild(this);
+		})
+	} //End of for loop
+	console.log(arrayOfTasks);
+	const deleteButtons = document.getElementsByClassName("delete");
+	for(const deleteButton of deleteButtons){
+		deleteButton.addEventListener('click', function(){
+			let index = arrayOfTasks.findIndex(x => x.todo == this.parentNode.firstElementChild.textContent);
+			
+			arrayOfTasks.splice(index, 1);
+			console.log(arrayOfTasks);
+			
+			 //this.parentNode.removeChild(this.parentNode.firstChild);
+			this.parentNode.removeChild(this.previousElementSibling);
 			this.parentNode.removeChild(this.previousElementSibling);
 			this.parentNode.removeChild(this);
-		
 			
-			myDoneListDiv.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, true);
-			console.log(myDoneListDiv);
-		
+				
+		//console.log(this.parentNode);
+			//myDoneListDiv.innerHTML = makeHTMLOutOfArray(arrayOfTasks, toDoListHTML, true);
 		})
-	}
+	} //End of for loop
 	
-});
+}); //End of addButton.EventListener
 
 
-//När done uppdateras till true försvinner den från listan.
 
-//const toDoItems = document.createElement('li');
+//this.parentElement.firstChild.textContent);
+
