@@ -1,0 +1,22 @@
+//tablet
+
+.wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	flex: 0 1 auto;
+	width: 95%;
+	justify-content: space-between;
+	margin-bottom: 0;
+}
+.list_wrap {
+	display: flex;
+	flex: 0 1 auto;
+	flex-direction: column;
+	box-sizing: border-box;
+	width: 48%;
+	text-align: center;
+	padding-bottom: 0;
+	align-content: stretch;
+	//height: 100%;
+	
+}
