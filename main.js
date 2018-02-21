@@ -4,15 +4,21 @@ const myToDoListDiv = document.getElementById('my_to_do_list_div');
 const myDoneListDiv = document.getElementById('my_done_list_div');
 const deleteAllButton = document.getElementById("deleteAllButton");
 const deleteAllDoneButton = document.getElementById("deleteAllDoneButton");
+const errorMessage = document.getElementById("errorMessage");
 
 /*A function that creates objects and but them in an array. 
 It also compares objects so there is no dupicates in the array.*/
 function putObjectInArray(array, task) { 
-	if (array.filter(function(e){ return e.todo == task }).length > 0 || task.length < 1) {
-		console.log("stop!");
+	if (array.filter(function(e){ return e.todo == task }).length > 0) {
+		errorMessage.innerHTML = `<p>You have already entered this task.<br>Please try again.</p>`;
+	}
+	else if (task.length < 1){
+		errorMessage.innerHTML = `<p>Don't forget to write something.</p>`;
 	}
 	else {
-	array.push({todo: task, done: false});						
+	array.push({todo: task, done: false});	
+		errorMessage.innerHTML = "";
+		
 	return array;
 	}
 }; //End of function
@@ -25,8 +31,8 @@ function makeHTMLOutOfArray(array, string, boolean) {
 		  string += 
 			`<div>
 				<p>${array[i].todo}</p>
-				<button class="done">Done</button>
-				<button class="delete">Delete</button>
+				<button class="done"><span class="glyphicon glyphicon-ok"></span> DONE</button>
+				<button class="delete"><span class="glyphicon glyphicon-remove"></span> DELETE</button>
 			</div>`;
 			}
 		}
@@ -37,8 +43,8 @@ function makeHTMLOutOfArray(array, string, boolean) {
 			if(array[i].done == true) {
 		  string += 
 			  `<div>
-				  <p>${array[i].todo}</p>
-				  <button class="deleteDone">Delete</button>
+				  <p class="p_done">${array[i].todo}</p>
+				  <button class="deleteDone"><span class="glyphicon glyphicon-remove"></span> DELETE</button>
 			   </div>`;
 			}
 		}
