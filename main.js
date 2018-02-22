@@ -52,7 +52,7 @@ function makeHTMLOutOfArray(array, string, boolean) {
 	}	
 }; //End of function
 
-//A function that deletes all the objects in an array depending on a boolean property.
+/*A function that deletes some objects in an array depending on the boolean property.*/
 function deletePartOfArray(array, boolean) {
 	if(boolean == false) {
 		for(let i = 0; i < array.length; i++){
@@ -73,12 +73,10 @@ function deletePartOfArray(array, boolean) {
 }; //End of function
 
 
+let arrayOfTasks = []; //An empty array that will be filled with objects.
+let toDoListHTML = ""; //An empty string that will be filled with HTML.
 
-let arrayOfTasks = []; //An empty array
-let toDoListHTML = ""; //An empty string
 
-
-/* The addButton.addEventListener is the "parent" of doneButtons and deleteButtons because they don't exist unless you have clicked the addButton */
 addButton.addEventListener('click', function(){
 	putObjectInArray(arrayOfTasks, input.value);
 	input.value = "";
@@ -87,7 +85,7 @@ addButton.addEventListener('click', function(){
 	const doneButtons = document.getElementsByClassName("done");
 	for(const doneButton of doneButtons){
 		doneButton.addEventListener('click', function(){
-			/* The findIndex function takes the textcontent of a todo and matches it with the right object i arrayOfTasks. It returns the index of the object in that array. */
+			/* The findIndex function takes the text content of a task and matches it with the right object i arrayOfTasks. It returns the index of the object in that array. */
 			let index = arrayOfTasks.findIndex(x => x.todo == this.previousElementSibling.textContent);
 			/* The property "done" is changed to true. Now the task won't be displayed in the todo-list, only in the done-list. */
 			arrayOfTasks[index].done = true;
@@ -102,7 +100,9 @@ addButton.addEventListener('click', function(){
 			for(const deleteDoneButton of deleteDoneButtons){
 				deleteDoneButton.addEventListener('click', function(){
 					let index = arrayOfTasks.findIndex(x => x.todo == this.parentNode.firstElementChild.textContent);
+					/*The object of a certain index in the array is deleted with splice function.*/
 					arrayOfTasks.splice(index, 1);
+					/*The task and the buttons are removed from the list on the webpage. */
 					this.parentNode.removeChild(this.previousElementSibling);
 					this.parentNode.removeChild(this);
 				})
@@ -130,12 +130,10 @@ addButton.addEventListener('click', function(){
 	deleteAllButton.addEventListener('click', function(){
 		myToDoListDiv.innerHTML = "";
 		deletePartOfArray(arrayOfTasks, false);
-		console.log(arrayOfTasks);
 	});
 	
 }); //End of addButton.EventListener
 
 
 
-//this.parentElement.firstChild.textContent);
 
